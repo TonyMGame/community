@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestApiImpl implements TestApi {
 
-
     private final Logger log = LoggerFactory.getLogger(TestApiImpl.class);
 
     @Override
