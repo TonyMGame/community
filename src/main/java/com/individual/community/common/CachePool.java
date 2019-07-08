@@ -69,6 +69,7 @@ public class CachePool {
         // 判断该对象是否在在缓存池，不在直接put
         if (!cacheItems.containsKey(name)) {
             cacheItems.put(name, new CacheItem(obj, expires));
+
         }
 
         // 获取缓存池中对象，更新对象信息
