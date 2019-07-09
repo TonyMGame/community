@@ -1,14 +1,22 @@
 package com.individual.community.common;
 
+import com.individual.community.api.impl.UserApiImpl;
+import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 缓存池
+ *
  * @author CL
  */
 public class CachePool {
+
+    private final Logger log = LoggerFactory.getLogger(CachePool.class);
     // 缓存池唯一实例
     private static CachePool instance;
 
@@ -18,6 +26,7 @@ public class CachePool {
     private CachePool() {
         cacheItems = new HashMap<String, Object>();
     }
+
 
     /**
      * 获取唯一的实例
@@ -51,7 +60,9 @@ public class CachePool {
         }
 
         CacheItem cacheItem = (CacheItem) cacheItems.get(name);
+
         if (cacheItem.isExpired()) {
+            this.removeCacheItem(name);
             return null;
         }
 
@@ -98,6 +109,7 @@ public class CachePool {
      * @return
      */
     public int getSize() {
+        log.info("缓存池：{}", cacheItems);
         return cacheItems.size();
     }
 

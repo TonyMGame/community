@@ -15,7 +15,7 @@ public class CacheItem {
     private Date createTime = new Date();
 
     // 缓存期满时间
-    private long expireTime = 1;
+    private long expireTime = 1000*60*5;
 
     // 缓存实体
     private Object entity;
@@ -27,7 +27,7 @@ public class CacheItem {
 
     // 判断缓存是否超时
     public boolean isExpired() {
-        return (expireTime != -1 && System.currentTimeMillis() - createTime.getTime() > expireTime);
+        return (System.currentTimeMillis() - createTime.getTime() > expireTime);
     }
 }
 
