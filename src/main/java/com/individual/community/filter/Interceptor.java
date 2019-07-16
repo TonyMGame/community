@@ -1,6 +1,5 @@
 package com.individual.community.filter;
 
-import com.individual.community.api.impl.TestApiImpl;
 import com.individual.community.bean.model.User;
 import com.individual.community.common.CachePool;
 import com.individual.community.common.ThreadRepertory;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Interceptor implements HandlerInterceptor {
@@ -44,13 +42,12 @@ public class Interceptor implements HandlerInterceptor {
         log.info("拦截获取sessionId：{}", sessionId);
         CachePool.getInstance().getSize();
         User user = (User) CachePool.getInstance().getCacheItem(sessionId);
-
+        log.info("拦截查询的user:{}",user);
         if (user == null) {
             response.getWriter().append("请登录");
             return false;
         }
         ThreadRepertory.setParm((Map<String, Object>) user);
-
         return true;
     }
 
