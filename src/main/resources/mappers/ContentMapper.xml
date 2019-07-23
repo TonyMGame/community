@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.individual.community.dao.IndexDao">
+
+    <resultMap id="BaseResultMap" type="com.individual.community.bean.model.Content">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="tittle" jdbcType="VARCHAR" property="tittle"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+
+    private   int id;
+
+    private  int indexId;
+
+    private  String content;
+
+    private  int userId;
+
+    private  String userName;
+
+    private Date createTime;
+
+    private  int talkUserId;
+
+    private  String talkUserName;
+
+    private int talkStoreyId;
+
+    <resultMap id="storeyBaseResultMap" type="com.individual.community.bean.model.Storey">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="index_id" jdbcType="BIGINT" property="indexId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="talk_user_id" jdbcType="BIGINT" property="talkUserId"/>
+        <result column="talk_user_name" jdbcType="VARCHAR" property="talkUserName"/>
+        <result column="talk_storey_id" jdbcType="BIGINT" property="talkStoreyId"/>
+    </resultMap>
+
+    <select id="getConcent" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from  `index` WHERE  id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="getStorey" resultMap="storeyBaseResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM storey ORDER BY talk_storey_id ,create_time
+        where  index_id = #{indexId,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

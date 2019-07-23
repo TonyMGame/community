@@ -17,4 +17,6 @@ public class User {
 
     private  int  level;
 
+    private  String sessionId;
+
 }

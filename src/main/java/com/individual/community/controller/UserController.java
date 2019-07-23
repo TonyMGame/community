@@ -4,6 +4,8 @@ package com.individual.community.controller;
 import com.individual.community.api.UserApi;
 import com.individual.community.bean.input.UserIndex;
 import com.individual.community.bean.input.UserLogin;
+import com.individual.community.bean.input.UserRegister;
+import com.individual.community.common.Response;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,8 +23,9 @@ public class UserController {
      */
     @RequestMapping(value = "logon", method = RequestMethod.POST)
     @ResponseBody
-    public String logon(@RequestBody UserIndex userIndex){
-        return  "注册";
+    public Response logon(@RequestBody UserRegister userRegister) {
+        userApi.logon(userRegister);
+        return new Response();
     }
 
     /**
@@ -30,19 +33,19 @@ public class UserController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public String login(@RequestBody UserLogin userLogin, HttpServletRequest request){
-        return this.userApi.login(userLogin,request);
+    public Response login(@RequestBody UserLogin userLogin, HttpServletRequest request) {
+        return new Response(this.userApi.login(userLogin, request));
     }
 
     /**
      * 登出
      */
-    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     @ResponseBody
-    public String logout(@RequestBody UserIndex userIndex){
-        return  "登出";
+    public Response logout() {
+        userApi.logout();
+        return new Response();
     }
-
 
 
 }

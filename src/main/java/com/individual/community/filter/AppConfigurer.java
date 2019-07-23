@@ -19,7 +19,7 @@ public class AppConfigurer extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
 
         InterceptorRegistration registration = registry.addInterceptor(getMyInterceptor()).addPathPatterns("/**");
-        registration.excludePathPatterns("/","/user/*");
+        registration.excludePathPatterns("/","/user/*","/getIndex");
         super.addInterceptors(registry);
     }
 

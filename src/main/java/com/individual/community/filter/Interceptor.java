@@ -20,6 +20,7 @@ public class Interceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
             throws Exception {
         // TODO Auto-generated method stub
+        ThreadRepertory.removeParm();
     }
 
     @Override
@@ -38,10 +39,17 @@ public class Interceptor implements HandlerInterceptor {
         response.setContentType("text/html;charset=UTF-8");
         log.info("------------------>:已完成跨域处理");
 
-        String sessionId = request.getSession().getId();
+        String token  = request.getHeader("token");
+        String sessionId;
+        if(token!=null){
+            sessionId = token;
+        }else {
+            sessionId = request.getSession().getId();
+        }
         log.info("拦截获取sessionId：{}", sessionId);
         CachePool.getInstance().getSize();
         User user = (User) CachePool.getInstance().getCacheItem(sessionId);
+        user.setSessionId(sessionId);
         log.info("拦截查询的user:{}",user);
         if (user == null) {
             response.getWriter().append("请登录");
