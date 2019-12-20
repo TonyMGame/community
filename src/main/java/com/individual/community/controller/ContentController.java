@@ -1,7 +1,6 @@
 package com.individual.community.controller;
 
 import com.individual.community.api.IndexApi;
-import com.individual.community.bean.model.Content;
 import com.individual.community.common.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +9,7 @@ import javax.annotation.Resource;
 /**
  * @author CL
  * @date 2019.07.16
- * @deprecated 内容
+ * @Description
  */
 @RestController
 public class ContentController {

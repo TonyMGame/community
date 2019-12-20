@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 public class Interceptor implements HandlerInterceptor {
@@ -30,16 +32,17 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2)
+            throws Exception {
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
         response.setContentType("text/html;charset=UTF-8");
         log.info("------------------>:已完成跨域处理");
-
-        String token  = request.getHeader("token");
+        log.info("------------------>:"+request.getRequestURI());
+        log.info("------------------>:"+getIpAddress(request));
+        /*String token  = request.getHeader("token");
         String sessionId;
         if(token!=null){
             sessionId = token;
@@ -55,8 +58,39 @@ public class Interceptor implements HandlerInterceptor {
             response.getWriter().append("请登录");
             return false;
         }
-        ThreadRepertory.setParm((Map<String, Object>) user);
+        ThreadRepertory.setParm((Map<String, Object>) user);*/
         return true;
     }
+
+    private static String getIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+            if("127.0.0.1".equals(ip)||"0:0:0:0:0:0:0:1".equals(ip)){
+                //根据网卡取本机配置的IP
+                InetAddress inet=null;
+                try {
+                    inet = InetAddress.getLocalHost();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                ip= inet.getHostAddress();
+            }
+        }
+        return ip;
+    }
+
 
 }

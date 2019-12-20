@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author CL
  * @date 2019.07.16
- * @deprecated 首页
+ * @Description
  */
 @RestController
 public class IndexController {
@@ -109,6 +109,29 @@ public class IndexController {
         map1.put("result", list);
         return map1;
     }*/
+
+
+    public static String original(String md5str) {
+
+        int size = md5str.length()/2;
+        char[] a = md5str.substring(size).toCharArray();
+        char[] b = md5str.substring(0, size).toCharArray();
+
+        StringBuffer newStr = new StringBuffer();
+
+        for (int i = 0; i < a.length; i++) {
+            newStr.append(a[i]);
+            if(a.length>b.length&&i==a.length-1){
+                break;
+            }
+            newStr.append(b[i]);
+        }
+        return newStr.toString().toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(IndexController.original("d718d02869c432859192000d70125ac2"));
+    }
 
 
 }

@@ -11,24 +11,15 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapIndex" type="com.individual.community.bean.model.Index">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="tittle" jdbcType="VARCHAR" property="tittle"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
 
-    private   int id;
-
-    private  int indexId;
-
-    private  String content;
-
-    private  int userId;
-
-    private  String userName;
-
-    private Date createTime;
-
-    private  int talkUserId;
-
-    private  String talkUserName;
-
-    private int talkStoreyId;
 
     <resultMap id="storeyBaseResultMap" type="com.individual.community.bean.model.Storey">
         <id column="id" jdbcType="BIGINT" property="id"/>
@@ -49,6 +40,11 @@
     <select id="getStorey" resultMap="storeyBaseResultMap" parameterType="java.lang.Integer">
         SELECT * FROM storey ORDER BY talk_storey_id ,create_time
         where  index_id = #{indexId,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="getIndex" resultMap="BaseResultMapIndex" >
+        SELECT * from  `index`
     </select>
 
 
